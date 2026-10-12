@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizador de Drama 🎭</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --accent: #38bdf8;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Contenedor de Botones */
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            max-width: 900px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .btn-drama {
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 10px 22px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-drama:hover {
+            transform: translateY(-3px) scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-drama.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            box-shadow: 0 8px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Contenido del Drama / Tarjeta Principal */
+        .content-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: scaleUp 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .script-box {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .script-box p {
+            line-height: 1.8;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            white-space: pre-line; /* Respeta los saltos de línea */
+        }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Organizador de no se que nombre 🎬</h1>
+        <p>cuidado no se aprenden nada :v
+        personajes femeninos pedro y favio</p>
+    </header>
+
+    <!-- Botones con tus opciones exactas -->
+    <div class="nav-buttons">
+        <button class="btn-drama active" onclick="mostrarSeccion('enyell', this)">Enyell-gorgor</button>
+        <button class="btn-drama" onclick="mostrarSeccion('favio', this)">Favio-lola la coneja</button>
+        <button class="btn-drama" onclick="mostrarSeccion('oscar', this)">Oscar-el duende chipa</button>
+        <button class="btn-drama" onclick="mostrarSeccion('nisky', this)">Nisky-buho sabio</button>
+        <button class="btn-drama" onclick="mostrarSeccion('kenneth', this)">Kenneth-zorro saltarin</button>
+        <button class="btn-drama" onclick="mostrarSeccion('jose', this)">Jose-pompom</button>
+        <button class="btn-drama" onclick="mostrarSeccion('pedro', this)">Pedro-zapa</button>
+        <button class="btn-drama" onclick="mostrarSeccion('bryam', this)">Bryam-la rana croac</button>
+        <button class="btn-drama" onclick="mostrarSeccion('alceo', this)">Alceo-oso peludo</button>
+        <button class="btn-drama" onclick="mostrarSeccion('drama-junta', this)">🎭 Drama Junta</button>
+    </div>
+
+    <!-- Contenedor dinámico -->
+    <div class="content-container">
+        <h2 id="titulo-seccion" class="section-title">Enyell</h2>
+        <div class="script-box">
+            <p id="texto-seccion">TURNO 4 (Hablas después del DUENDE CHISPA - Turno 3. Entras marchando):
+
+Dice: "¡Alto ahí, marcha suspendida! ¡Atención, alumno Pompón! Para ser un monstruo temido debes tener una caminata fuerte. A ver, infla la panza, abre los ojos gigantes y di un BUUU bien feo."
+
+TURNO 7 (Hablas después del estornudo de POMPÓN - Turno 6):
+
+Dice: "¡Por las patitas de las arañas! ¿Eso fue un rugido o el estornudo de un ratoncito? ¡Así no vas a asustar ni a una mosca!"
+
+TURNO 23 (Hablas después de ZAPA - Turno 22):
+
+Dice: "¡Es verdad! Asustar es aburrido... ¡Hacer reír a los demás es el trabajo más bonito de todos! Desde hoy te nombro: ¡El Oficial Monstruo de las Cosquillas!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!".</p>
+        </div>
+    </div>
+
+    <script>
+        // OBJETO CON EL TEXTO DE CADA PERSONAJE / SECCIÓN
+        // ¡Aquí es donde puedes editar fácilmente el texto de cada uno sin tocar código avanzado!
+        const datosDrama = {
+            enyell: {
+                titulo: "Partes de Enyell 🎙️",
+                texto: `TURNO 4 (Hablas después del DUENDE CHISPA - Turno 3. Entras marchando):
+
+Dice: "¡Alto ahí, marcha suspendida! ¡Atención, alumno Pompón! Para ser un monstruo temido debes tener una caminata fuerte. A ver, infla la panza, abre los ojos gigantes y di un BUUU bien feo."
+
+TURNO 7 (Hablas después del estornudo de POMPÓN - Turno 6):
+
+Dice: "¡Por las patitas de las arañas! ¿Eso fue un rugido o el estornudo de un ratoncito? ¡Así no vas a asustar ni a una mosca!"
+
+TURNO 23 (Hablas después de ZAPA - Turno 22):
+
+Dice: "¡Es verdad! Asustar es aburrido... ¡Hacer reír a los demás es el trabajo más bonito de todos! Desde hoy te nombro: ¡El Oficial Monstruo de las Cosquillas!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            favio: {
+                titulo: "Partes de Favio 🎙️",
+                texto: `TURNO 9 (En grupo con los demás animales):
+
+Dice: "¡Hola, hola!"
+
+TURNO 10 (Hablas sola, inmediatamente después de entrar en el Turno 9. Temblando de miedo):
+
+Dice: "¡Ay, ay, ay! ¡Escuché que hay un monstruo peludo por aquí! Tengo tanto miedo que mis orejitas tiemblan. ¡Miren cómo tiemblan!"
+
+TURNO 25 (Hablas después de POMPÓN - Turno 24):
+
+Dice: "¡Ya no te tengo miedo, Pompón! ¡Eres nuestro mejor amigo!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            oscar: {
+                titulo: "Partes de Oscar 🎙️",
+                texto: `TURNO 1 (Inicia la obra. Entras saltando al escenario):
+
+Dice: "¡Hola, hola, hola, mis amiguitos y amiguitas del público! ¿Cómo están hoy? ¡A ver, no los escucho! ¿CÓMO ESTÁN? ... ¡Eso es! Bienvenidos al maravilloso Bosque de las Risas. Hoy es un día muy especial, pero mi mejor amigo, Pompón, tiene un problema gigante. Él quiere ser un monstruo súper espeluznante... ¡pero es más suave y tierno que un peluche! Miren, ahí viene. ¡Todos en silencio para no asustarlo!"
+
+TURNO 3 (Hablas después de POMPÓN - Turno 2):
+
+Dice: "¡Ay, Pompón! Nadie te tiene miedo. ¡Mírate, si das más ganas de darte un abrazo bien fuerte! Pero no te preocupes, hoy vinieron los profesores de la Gran Escuela de Monstruos a ayudarte. ¡Miren, ahí vienen marchando!"
+
+TURNO 20 (Hablas después del OSO PELUDO - Turno 19):
+
+Dice: "¡Amiguitos y amiguitas del público! Vamos a ayudar a Pompón. Todos pónganse de pie en sus lugares. ¡De pie, de pie!"
+
+TURNO 21 (Hablas inmediatamente después de tu Turno 20):
+
+Dice: "Ahora, todos preparen sus manos con garras de cosquillas. A la cuenta de tres, le vamos a hacer cosquillas al aire hacia Pompón. ¡Una, dos y tres! ¡COSQUILLAS!"`
+            },
+            nisky: {
+                titulo: "Partes de Nisky 🎙️",
+                texto: `TURNO 9 (En grupo con los demás animales):
+
+Dice: "¡Buuuu-ho!"
+
+TURNO 12 (Hablas después de POMPÓN - Turno 11):
+
+Dice: "¡Un momento, pequeñín! No te rindas tan fácil. A ver, acércate a mí y dame tu mejor susto en la oreja."
+(Pompón te dice "Buu" y te hace cosquillas en el cuello)
+
+TURNO 13 (Hablas riéndote inmediatamente después de que te hagan cosquillas):
+
+Dice: "¡Jajaja, jiji, jo, jo! ¡Ay, por todas mis plumas! ¡Eso no asusta, eso pica! ¡Tus dedos dan muchísima risa! ¡Jajaja!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            kenneth: {
+                titulo: "Partes de Kenneth 🎙️",
+                texto: `TURNO 9 (En grupo con los demás animales):
+
+Dice: "¡Hola a todos!"
+
+TURNO 14 (Hablas después del BÚHO SABIO - Turno 13):
+
+Dice: "¡A mí, a mí! ¡Pruébame a mí que soy súper rápido y nada me da miedo!"
+(Pompón te corre y te hace cosquillas en las costillas)
+
+TURNO 15 (Hablas tirado en el suelo riéndote):
+
+Dice: "¡Ji, ji, ji! ¡Ay, no puedo más! ¡Socorro, este monstruo es una máquina de hacer cosquillas! ¡Qué divertido!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            jose: {
+                titulo: "Partes de Jose 🎙️",
+                texto: ` POMPÓN (El Monstruo de las Cosquillas - Protagonista)
+TURNO 2 (Hablas después del DUENDE CHISPA - Turno 1. Entras, te tropiezas y caes):
+
+Dice: "¡Ouch! ¡Ay, mi colita! ¡Grrr! ¡Grrr! ¡Soy Pompón, el monstruo más malvado y aterrador de este bosque! ¡Ténganme miedo! Grrr... Ay, no me sale. Duende Chispa, dime la verdad... ¿alguien me tiene miedo aquí?"
+
+TURNO 6 (Hablas después de ZAPA - Turno 5. Intentas rugir, te inflas y estornudas):
+
+Dice: "...¡Aiii-chís!" (Estornudas y caes de espaldas).
+
+TURNO 11 (Hablas después de LOLA LA CONEJA - Turno 10):
+
+Dice: "¿Ven? Lola tiene miedo pero ni siquiera me ha visto. ¡Soy el peor monstruo del mundo! Me iré a llorar a mi cueva..."
+
+TURNO 24 (Hablas después de GORGOR - Turno 23):
+
+Dice: "¡Yupi! ¡Ya no tengo que ser malvado! ¡Puedo repartir risas y abrazos a todos!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            pedro: {
+                titulo: "Partes de Pedro 🎙️",
+                texto: `TURNO 5 (Hablas después de GORGOR - Turno 4):
+
+Dice: "¡Eso, eso! Pompón, pon cara de cebolla podrida, arruga la nariz y danos un rugido que haga temblar las hojas de los árboles. ¡A la una, a las dos y a las tres!"
+
+TURNO 8 (Hablas después de GORGOR - Turno 7):
+
+Dice: "¡Tranquilo Gorgor! Vamos a enseñarle con práctica real. ¡Que vengan los animales del bosque para hacer la prueba del susto!"
+
+TURNO 22 (Hablas después de las cosquillas del público de DUENDE CHISPA - Turno 21):
+
+Dice: "¡Pompón, escúchalos a todos! ¡No naciste para asustar ni para hacer llorar a nadie! ¡Tú tienes el don de hacer feliz al bosque!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            bryam: {
+                titulo: "Partes de Bryam 🎙️",
+                texto: `TURNO 9 (En grupo con los demás animales):
+
+Dice: "¡Croac, croac!"
+
+TURNO 16 (Hablas después del ZORRO SALTARÍN - Turno 15):
+
+Dice: "¡Croac, croac! ¡Yo también quiero probar! ¡A ver si puedes hacerme reír a mí, Pompón!"
+(Pompón te hace cosquillas en la pancita)
+
+TURNO 17 (Hablas saltando de risa):
+
+Dice: "¡Jajaja! ¡Croac! ¡Jajaja! ¡Me hace saltar de risa!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            alceo: {
+                titulo: "Partes de Alceo 🎙️",
+                texto: `TURNO 9 (En grupo con los demás animales):
+
+Dice: "¡Hola, hola!"
+
+TURNO 18 (Hablas después de la RANA CROAC - Turno 17):
+
+Dice: "¡Oigan, oigan! ¿Y a mí no me van a hacer cosquillas? A ver Pompón, ¡hazme cosquillas en mis patas gigantes!"
+(Pompón te hace cosquillas en las plantas de los pies)
+
+TURNO 19 (Hablas riendo con voz grave y fuerte):
+
+Dice: "¡JAJAJA! ¡Ay, mis patas! ¡Hacía años que no me reía tanto!"
+
+FINAL (TODOS JUNTOS): "¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"`
+            },
+            'drama-junta': {
+                titulo: "Escenas de Drama Junta 🎭✨",
+                texto: `¡Aquí tienes el guion completo unificado y ordenado turno por turno del 1 al 26, para que puedan leerlo todos juntos en los ensayos sabiendo exactamente a quién le toca hablar en cada momento!
+
+🎭 GUION COMPLETO UNIFICADO POR TURNOS (DEL 1 AL 26)
+Efectos de sonido generales: Música de circo/caricatura suave de fondo, pasos torpes, estornudo gracioso, música de selva y música festiva final.
+
+TURNO 1 — DUENDE CHISPA (Entra saltando y saludando con energía):
+
+"¡Hola, hola, hola, mis amiguitos y amiguitas del público! ¿Cómo están hoy? ¡A ver, no los escucho! ¿CÓMO ESTÁN? ... ¡Eso es! Bienvenidos al maravilloso Bosque de las Risas. Hoy es un día muy especial, pero mi mejor amigo, Pompón, tiene un problema gigante. Él quiere ser un monstruo súper espeluznante... ¡pero es más suave y tierno que un peluche! Miren, ahí viene. ¡Todos en silencio para no asustarlo!"
+
+TURNO 2 — POMPÓN (Entra torpemente, se tropieza con sus pies y cae de pompis):
+
+"¡Ouch! ¡Ay, mi colita! ¡Grrr! ¡Grrr! ¡Soy Pompón, el monstruo más malvado y aterrador de este bosque! ¡Ténganme miedo! Grrr... Ay, no me sale. Duende Chispa, dime la verdad... ¿alguien me tiene miedo aquí?"
+
+TURNO 3 — DUENDE CHISPA (Le habla a Pompón sonriendo):
+
+"¡Ay, Pompón! Nadie te tiene miedo. ¡Mírate, si das más ganas de darte un abrazo bien fuerte! Pero no te preocupes, hoy vinieron los profesores de la Gran Escuela de Monstruos a ayudarte. ¡Miren, ahí vienen marchando!"
+
+TURNO 4 — GORGOR (Entra marchando exageradamente):
+
+"¡Alto ahí, marcha suspendida! ¡Atención, alumno Pompón! Para ser un monstruo temido debes tener una caminata fuerte. A ver, infla la panza, abre los ojos gigantes y di un BUUU bien feo."
+
+TURNO 5 — ZAPA (Con las manos en la cintura):
+
+"¡Eso, eso! Pompón, pon cara de cebolla podrida, arruga la nariz y danos un rugido que haga temblar las hojas de los árboles. ¡A la una, a las dos y a las tres!"
+
+TURNO 6 — POMPÓN (Se infla como globo para rugir pero estornuda):
+
+"...¡Aiii-chís!" (Estornuda y cae de espaldas).
+
+TURNO 7 — GORGOR (Se agarra la cabeza):
+
+"¡Por las patitas de las arañas! ¿Eso fue un rugido o el estornudo de un ratoncito? ¡Así no vas a asustar ni a una mosca!"
+
+TURNO 8 — ZAPA (Animando a Gorgor):
+
+"¡Tranquilo Gorgor! Vamos a enseñarle con práctica real. ¡Que vengan los animales del bosque para hacer la prueba del susto!"
+
+TURNO 9 — TODOS LOS ANIMALES JUNTOS (Lola, Búho, Zorro, Rana y Oso entran al escenario):
+
+"¡Hola, hola! ¡Croac, croac! ¡Buuuu-ho! ¡Hola a todos!"
+
+TURNO 10 — LOLA LA CONEJA (Temblando de miedo y tapándose con sus orejas):
+
+"¡Ay, ay, ay! ¡Escuché que hay un monstruo peludo por aquí! Tengo tanto miedo que mis orejitas tiemblan. ¡Miren cómo tiemblan!"
+
+TURNO 11 — POMPÓN (Triste, agachando la cabeza):
+
+"¿Ven? Lola tiene miedo pero ni siquiera me ha visto. ¡Soy el peor monstruo del mundo! Me iré a llorar a mi cueva..."
+
+TURNO 12 — BÚHO SABIO (Se acerca a Pompón):
+
+"¡Un momento, pequeñín! No te rindas tan fácil. A ver, acércate a mí y dame tu mejor susto en la oreja."
+(Pompón se acerca, le dice "Buu" y le hace cosquillas en el cuello)
+
+TURNO 13 — BÚHO SABIO (Muriéndose de la risa):
+
+"¡Jajaja, jiji, jo, jo! ¡Ay, por todas mis plumas! ¡Eso no asusta, eso pica! ¡Tus dedos dan muchísima risa! ¡Jajaja!"
+
+TURNO 14 — ZORRO SALTARÍN (Da un salto al frente):
+
+"¡A mí, a mí! ¡Pruébame a mí que soy súper rápido y nada me da miedo!"
+(Pompón lo persigue y le hace cosquillas en las costillas)
+
+TURNO 15 — ZORRO SALTARÍN (Tirado en el suelo pataleando de risa):
+
+"¡Ji, ji, ji! ¡Ay, no puedo más! ¡Socorro, este monstruo es una máquina de hacer cosquillas! ¡Qué divertido!"
+
+TURNO 16 — RANA CROAC (Da un salto gigante al centro):
+
+"¡Croac, croac! ¡Yo también quiero probar! ¡A ver si puedes hacerme reír a mí, Pompón!"
+(Pompón le hace cosquillas en la barriga)
+
+TURNO 17 — RANA CROAC (Saltando de risa por el escenario):
+
+"¡Jajaja! ¡Croac! ¡Jajaja! ¡Me hace saltar de risa!"
+
+TURNO 18 — OSO PELUDO (Se acerca bostezando y rascándose la panza):
+
+"¡Oigan, oigan! ¿Y a mí no me van a hacer cosquillas? A ver Pompón, ¡hazme cosquillas en mis patas gigantes!"
+(Pompón le hace cosquillas en la planta de los pies)
+
+TURNO 19 — OSO PELUDO (Riendo con voz grave y fuerte):
+
+"¡JAJAJA! ¡Ay, mis patas! ¡Hacía años que no me reía tanto!"
+
+TURNO 20 — DUENDE CHISPA (Se acerca al borde del escenario le habla al público infantil):
+
+"¡Amiguitos y amiguitas del público! Vamos a ayudar a Pompón. Todos pónganse de pie en sus lugares. ¡De pie, de pie!"
+
+TURNO 21 — DUENDE CHISPA (Dirige a los niños):
+
+"Ahora, todos preparen sus manos con garras de cosquillas. A la cuenta de tres, le vamos a hacer cosquillas al aire hacia Pompón. ¡Una, dos y tres! ¡COSQUILLAS!"
+(Todos los personajes en el escenario actúan risas como si recibieran cosquillas del público)
+
+TURNO 22 — ZAPA (Aplaudiendo muy feliz):
+
+"¡Pompón, escúchalos a todos! ¡No naciste para asustar ni para hacer llorar a nadie! ¡Tú tienes el don de hacer feliz al bosque!"
+
+TURNO 23 — GORGOR (Quitándose su sombrero estricto):
+
+"¡Es verdad! Asustar es aburrido... ¡Hacer reír a los demás es el trabajo más bonito de todos! Desde hoy te nombro: ¡El Oficial Monstruo de las Cosquillas!"
+
+TURNO 24 — POMPÓN (Saltando de alegría):
+
+"¡Yupi! ¡Ya no tengo que ser malvado! ¡Puedo repartir risas y abrazos a todos!"
+
+TURNO 25 — LOLA LA CONEJA (Se acerca cariñosamente a Pompón):
+
+"¡Ya no te tengo miedo, Pompón! ¡Eres nuestro mejor amigo!"
+
+TURNO 26 — DUENDE CHISPA (Para dar paso a la música final):
+
+"¡Y para celebrar que Pompón encontró su talento, vamos todos a bailar el Baile de las Cosquillas!"
+
+FINAL — TODOS JUNTOS (LOS 9 PERSONAJES Y EL PÚBLICO):
+
+"¡VIVA EL MONSTRUO DE LAS COSQUILLAS!"
+(Suena música alegre de fiesta, todos bailan, hacen reverencia y saludan a los niños mientras termina la obra).`
+            }
+        };
+
+        // Función para cambiar de sección de forma fluida y sin errores
+        function mostrarSeccion(key, boton) {
+            // Cambiar clase activa en los botones
+            document.querySelectorAll('.btn-drama').forEach(btn => btn.classList.remove('active'));
+            boton.classList.add('active');
+
+            // Actualizar contenido con efecto visual suave
+            const container = document.querySelector('.content-container');
+            container.style.animation = 'none';
+            container.offsetHeight; // Trigger reflow
+            container.style.animation = 'scaleUp 0.4s ease-out';
+
+            document.getElementById('titulo-seccion').innerText = datosDrama[key].titulo;
+            document.getElementById('texto-seccion').innerText = datosDrama[key].texto;
+        }
+    </script>
+</body>
+</html>
